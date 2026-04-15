@@ -1,26 +1,43 @@
-NAME = bureaucrat
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -Iinc
+NAME		    =   bureaucrat
+CXX			    =   c++
+CXXFLAGS	    =   -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_DIR)
 
-SRCS =  \
-		main.cpp \
-		Bureaucrat.cpp
+RESET           =   \033[0m
+RED             =   \033[31m
+GREEN           =   \033[32m
+BLUE            =   \033[34m
 
-OBJS = $(SRCS:.cpp=.o)
+SRCS_FILES	    =   main.cpp \
+                    Bureaucrat.cpp
+
+HEADERS_FILES   =   Bureaucrat.hpp
+
+SRCS_DIR	= src
+HEADERS_DIR = inc
+OBJ_DIR		= obj
+
+SRCS		= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
+HEADERS     = $(addprefix $(HEADERS_DIR)/, $(HEADERS_FILES))
+OBJS		= $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.cpp=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+	@echo "$(GREEN)Successfully compiled [$(NAME)]$(RESET)"
 
-%.o: %.cpp Bureaucrat.hpp Makefile
-		$(CXX) $(CXXFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRCS_DIR)/%.cpp $(HEADERS) Makefile
+	@mkdir -p $(OBJ_DIR)
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
+	@echo "$(BLUE)Compiling $<$(RESET)"
 
 clean:
-		rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
+	@echo "$(RED)Object files removed.$(RESET)"
 
 fclean: clean
-		rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "$(RED)Executable [$(NAME)] removed.$(RESET)"
 
 re: fclean all
 
