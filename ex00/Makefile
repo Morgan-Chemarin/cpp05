@@ -1,6 +1,6 @@
 NAME		    =   bureaucrat
 CXX			    =   c++
-CXXFLAGS	    =   -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_DIR)
+CXXFLAGS	    =   -Wall -Wextra -Werror -std=c++98 -I$(HEADERS_DIR) -MMD -MP
 
 RESET           =   \033[0m
 RED             =   \033[31m
@@ -10,15 +10,13 @@ BLUE            =   \033[34m
 SRCS_FILES	    =   main.cpp \
                     Bureaucrat.cpp
 
-HEADERS_FILES   =   Bureaucrat.hpp
+SRCS_DIR		=	src
+HEADERS_DIR 	=	inc
+OBJ_DIR			=	obj
 
-SRCS_DIR	= src
-HEADERS_DIR = inc
-OBJ_DIR		= obj
-
-SRCS		= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
-HEADERS     = $(addprefix $(HEADERS_DIR)/, $(HEADERS_FILES))
-OBJS		= $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.cpp=.o))
+SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
+OBJS			=	$(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.cpp=.o))
+DEPS        	=	$(OBJS:.o=.d)
 
 all: $(NAME)
 
@@ -26,7 +24,9 @@ $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 	@echo "$(GREEN)Successfully compiled [$(NAME)]$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRCS_DIR)/%.cpp $(HEADERS) Makefile
+-include $(DEPS)
+
+$(OBJ_DIR)/%.o: $(SRCS_DIR)/%.cpp Makefile
 	@mkdir -p $(OBJ_DIR)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 	@echo "$(BLUE)Compiling $<$(RESET)"
