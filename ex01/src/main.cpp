@@ -6,7 +6,7 @@
 /*   By: dev <dev@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 13:00:40 by dev               #+#    #+#             */
-/*   Updated: 2026/04/14 18:29:06 by dev              ###   ########.fr       */
+/*   Updated: 2026/04/17 14:11:32 by dev              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int main()
 		std::cout << "Error : " << e.what() << '\n';
 	}
 	
-
 	std::cout << "----------------------Too low to sign----------------------" << std::endl;
 	try
 	{
@@ -44,11 +43,12 @@ int main()
 		std::cout << formB;
 		
 		burB.signForm(formB);
+		burB.signForm(formB);
 
 		std::cout << formB;
 	}
 	catch(const std::exception& e)
 	{
-		std::cout << "Error : " << e.what() << '\n';
+		(void)e;
 	}
 }

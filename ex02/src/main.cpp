@@ -6,7 +6,7 @@
 /*   By: dev <dev@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 13:00:40 by dev               #+#    #+#             */
-/*   Updated: 2026/04/15 16:01:48 by dev              ###   ########.fr       */
+/*   Updated: 2026/04/17 14:04:06 by dev              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "stdlib.h"
+#include "time.h"
 
 int main()
 {
+	srand (time(NULL));
+
 	std::cout << "----------------------Shrubbery Form----------------------" << std::endl;
 	try
 	{
@@ -65,7 +69,7 @@ int main()
 	std::cout << "----------------------executeForm----------------------" << std::endl;
 	try
 	{
-		Bureaucrat exec("Bob", 1);
+		Bureaucrat exec("Bob", 10);
 		RobotomyRequestForm form("Morgan");
 		std::cout << form;
 		exec.signForm(form);
@@ -75,7 +79,7 @@ int main()
 	}
 	catch(const std::exception& e)
 	{
-		std::cout << e.what() << '\n';
+		(void)e;
 	}
 	
 }
